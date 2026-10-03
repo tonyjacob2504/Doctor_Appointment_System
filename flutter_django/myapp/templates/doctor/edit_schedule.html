@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Schedule</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #FFF7ED,
+                    #F8F1FF
+                );
+
+            color: #29213D;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .page-header {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #3B0A45,
+                    #6D1A5F,
+                    #4C1D95
+                );
+
+            color: white;
+
+            padding: 30px 35px;
+
+            box-shadow:
+                0 7px 25px rgba(59, 10, 69, 0.25);
+
+        }
+
+
+        .header-content {
+
+            max-width: 900px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 25px;
+
+        }
+
+
+        /* =========================================
+           HEADER LEFT
+        ========================================= */
+
+        .header-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+        }
+
+
+        .header-icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #FBBF24,
+                    #F59E0B
+                );
+
+            color: #4A1D00;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            box-shadow:
+                0 7px 18px rgba(0,0,0,0.20);
+
+            flex-shrink: 0;
+
+        }
+
+
+        .header-text h1 {
+
+            margin: 0;
+
+            font-size: 27px;
+
+            font-weight: 700;
+
+        }
+
+
+        .header-text p {
+
+            margin: 5px 0 0;
+
+            font-size: 13px;
+
+            color: #F3E8FF;
+
+        }
+
+
+        /* =========================================
+           HEADER BUTTONS
+        ========================================= */
+
+        .header-buttons {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .back-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            text-decoration: none;
+
+            color: white;
+
+            background: rgba(255,255,255,0.12);
+
+            border: 1px solid rgba(255,255,255,0.25);
+
+            padding: 11px 17px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.25s;
+
+            white-space: nowrap;
+
+        }
+
+
+        .back-button:hover {
+
+            background: white;
+
+            color: #4C1D95;
+
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .main-container {
+
+            max-width: 900px;
+
+            margin: auto;
+
+            padding: 42px 25px;
+
+        }
+
+
+        /* =========================================
+           PAGE INTRO
+        ========================================= */
+
+        .page-intro {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .page-intro h2 {
+
+            margin: 0;
+
+            color: #3B0A45;
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+        }
+
+
+        .page-intro p {
+
+            margin: 7px 0 0;
+
+            color: #766A86;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================================
+           EDIT CARD
+        ========================================= */
+
+        .edit-card {
+
+            background: rgba(255,255,255,0.96);
+
+            border-radius: 22px;
+
+            border: 1px solid #E9DDF2;
+
+            box-shadow:
+                0 15px 40px rgba(59,10,69,0.12);
+
+            overflow: hidden;
+
+        }
+
+
+        /* =========================================
+           CARD HEADER
+        ========================================= */
+
+        .card-header {
+
+            padding: 22px 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #FDF2F8,
+                    #F3E8FF
+                );
+
+            border-bottom: 1px solid #E8DDF0;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+        }
+
+
+        .card-header-icon {
+
+            width: 43px;
+
+            height: 43px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7C3AED,
+                    #C026D3
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 18px;
+
+            box-shadow:
+                0 5px 12px rgba(124,58,237,0.20);
+
+        }
+
+
+        .card-header-text h3 {
+
+            margin: 0;
+
+            color: #3B0A45;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+        }
+
+
+        .card-header-text p {
+
+            margin: 3px 0 0;
+
+            color: #8B7B9B;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================================
+           FORM BODY
+        ========================================= */
+
+        .form-body {
+
+            padding: 30px;
+
+        }
+
+
+        /* =========================================
+           FORM GROUP
+        ========================================= */
+
+        .form-group {
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .form-label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #3B0A45;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+        }
+
+
+        .form-label i {
+
+            color: #7C3AED;
+
+            margin-right: 5px;
+
+        }
+
+
+        /* =========================================
+           INPUT WRAPPER
+        ========================================= */
+
+        .input-wrapper {
+
+            position: relative;
+
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #7C3AED;
+
+            font-size: 16px;
+
+            pointer-events: none;
+
+        }
+
+
+        .form-control,
+        .form-select {
+
+            width: 100%;
+
+            min-height: 48px;
+
+            border-radius: 11px;
+
+            border: 1px solid #D9CDE5;
+
+            background: #FFFCFF;
+
+            padding: 11px 14px 11px 43px;
+
+            color: #342744;
+
+            font-size: 13px;
+
+            transition: 0.2s;
+
+        }
+
+
+        .form-control:focus,
+        .form-select:focus {
+
+            border-color: #8B5CF6;
+
+            box-shadow:
+                0 0 0 3px rgba(139,92,246,0.12);
+
+            background: white;
+
+            outline: none;
+
+        }
+
+
+        /* =========================================
+           TWO COLUMN LAYOUT
+        ========================================= */
+
+        .form-row {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        /* =========================================
+           CURRENT VALUE INFO
+        ========================================= */
+
+        .current-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #FFF7ED,
+                    #FEF3C7
+                );
+
+            border: 1px solid #F5D99A;
+
+            color: #7C4A03;
+
+            border-radius: 12px;
+
+            padding: 13px 15px;
+
+            margin-bottom: 25px;
+
+            font-size: 12px;
+
+        }
+
+
+        .current-info i {
+
+            font-size: 17px;
+
+            color: #D97706;
+
+        }
+
+
+        /* =========================================
+           ACTION AREA
+        ========================================= */
+
+        .form-actions {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding-top: 8px;
+
+            border-top: 1px solid #EEE5F3;
+
+            margin-top: 8px;
+
+        }
+
+
+        /* =========================================
+           CANCEL BUTTON
+        ========================================= */
+
+        .cancel-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 11px 18px;
+
+            border-radius: 10px;
+
+            background: #F1EDF5;
+
+            color: #5B4B68;
+
+            text-decoration: none;
+
+            border: 1px solid #DED4E5;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+
+        }
+
+
+        .cancel-btn:hover {
+
+            background: #E7DEED;
+
+            color: #3B0A45;
+
+        }
+
+
+        /* =========================================
+           UPDATE BUTTON
+        ========================================= */
+
+        .update-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 11px 21px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7C3AED,
+                    #C026D3
+                );
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 6px 15px rgba(124,58,237,0.25);
+
+            transition: 0.25s;
+
+        }
+
+
+        .update-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 9px 20px rgba(124,58,237,0.32);
+
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .page-footer {
+
+            text-align: center;
+
+            padding: 10px 20px 30px;
+
+            color: #8B7B9B;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 700px) {
+
+            .page-header {
+
+                padding: 23px 18px;
+
+            }
+
+
+            .header-content {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .header-buttons {
+
+                width: 100%;
+
+            }
+
+
+            .back-button {
+
+                width: 100%;
+
+            }
+
+
+            .main-container {
+
+                padding: 28px 16px;
+
+            }
+
+
+            .form-row {
+
+                grid-template-columns: 1fr;
+
+                gap: 0;
+
+            }
+
+
+            .form-body {
+
+                padding: 22px;
+
+            }
+
+
+            .form-actions {
+
+                flex-direction: column-reverse;
+
+                align-items: stretch;
+
+            }
+
+
+            .cancel-btn,
+            .update-btn {
+
+                width: 100%;
+
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .header-left {
+
+                align-items: flex-start;
+
+            }
+
+
+            .header-icon {
+
+                width: 48px;
+
+                height: 48px;
+
+                font-size: 21px;
+
+            }
+
+
+            .header-text h1 {
+
+                font-size: 21px;
+
+            }
+
+
+            .page-intro h2 {
+
+                font-size: 21px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     PAGE HEADER
+========================================= -->
+
+<div class="page-header">
+
+    <div class="header-content">
+
+
+        <div class="header-left">
+
+
+            <div class="header-icon">
+
+                <i class="bi bi-pencil-square"></i>
+
+            </div>
+
+
+            <div class="header-text">
+
+                <h1>
+                    Edit Schedule
+                </h1>
+
+                <p>
+                    Update your consultation date and available timings
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="header-buttons">
+
+            <a
+                href="/myapp/view_schedule/"
+                class="back-button">
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back to My Schedule
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<div class="main-container">
+
+
+    <!-- PAGE INTRO -->
+
+    <div class="page-intro">
+
+        <h2>
+            Update Schedule Details
+        </h2>
+
+        <p>
+            Modify the existing consultation schedule and save your changes.
+        </p>
+
+    </div>
+
+
+
+    <!-- EDIT CARD -->
+
+    <div class="edit-card">
+
+
+        <!-- CARD HEADER -->
+
+        <div class="card-header">
+
+
+            <div class="card-header-icon">
+
+                <i class="bi bi-calendar2-check"></i>
+
+            </div>
+
+
+            <div class="card-header-text">
+
+                <h3>
+                    Schedule Information
+                </h3>
+
+                <p>
+                    Update the date and consultation timing below.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- FORM -->
+
+        <form
+            method="POST"
+            action="">
+
+            {% csrf_token %}
+
+
+            <div class="form-body">
+
+
+                <!-- INFORMATION -->
+
+                <div class="current-info">
+
+                    <i class="bi bi-info-circle-fill"></i>
+
+                    <span>
+                        Update the schedule details carefully. The changes will be saved to your doctor's schedule.
+                    </span>
+
+                </div>
+
+
+
+                <!-- DATE + DAY -->
+
+                <div class="form-row">
+
+
+                    <!-- DATE -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            Consultation Date
+
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <i class="bi bi-calendar-event input-icon"></i>
+
+                            <input
+                                type="date"
+                                name="date"
+                                class="form-control"
+                                value="{{ data.date|date:'Y-m-d' }}"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- DAY -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            <i class="bi bi-calendar-day"></i>
+
+                            Day
+
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <i class="bi bi-calendar-week input-icon"></i>
+
+                            <select
+                                name="day"
+                                class="form-select"
+                                required>
+
+                                <option value="Monday" {% if data.day == "Monday" %}selected{% endif %}>
+                                    Monday
+                                </option>
+
+                                <option value="Tuesday" {% if data.day == "Tuesday" %}selected{% endif %}>
+                                    Tuesday
+                                </option>
+
+                                <option value="Wednesday" {% if data.day == "Wednesday" %}selected{% endif %}>
+                                    Wednesday
+                                </option>
+
+                                <option value="Thursday" {% if data.day == "Thursday" %}selected{% endif %}>
+                                    Thursday
+                                </option>
+
+                                <option value="Friday" {% if data.day == "Friday" %}selected{% endif %}>
+                                    Friday
+                                </option>
+
+                                <option value="Saturday" {% if data.day == "Saturday" %}selected{% endif %}>
+                                    Saturday
+                                </option>
+
+                                <option value="Sunday" {% if data.day == "Sunday" %}selected{% endif %}>
+                                    Sunday
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- TIME ROW -->
+
+                <div class="form-row">
+
+
+                    <!-- FROM TIME -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            <i class="bi bi-clock"></i>
+
+                            From Time
+
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <i class="bi bi-clock input-icon"></i>
+
+                            <input
+                                type="time"
+                                name="from_time"
+                                class="form-control"
+                                value="{{ data.from_time|time:'H:i' }}"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- TO TIME -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            <i class="bi bi-clock-fill"></i>
+
+                            To Time
+
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <i class="bi bi-clock-fill input-icon"></i>
+
+                            <input
+                                type="time"
+                                name="to_time"
+                                class="form-control"
+                                value="{{ data.to_time|time:'H:i' }}"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ACTIONS -->
+
+                <div class="form-actions">
+
+
+                    <a
+                        href="/myapp/view_schedule/"
+                        class="cancel-btn">
+
+                        <i class="bi bi-x-lg"></i>
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="update-btn">
+
+                        <i class="bi bi-check2-circle"></i>
+
+                        Update Schedule
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<div class="page-footer">
+
+    <i class="bi bi-shield-check"></i>
+
+    Doctor Portal · Schedule Management
+
+</div>
+
+
+</body>
+
+</html>

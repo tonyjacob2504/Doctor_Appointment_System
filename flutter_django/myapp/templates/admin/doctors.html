@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Manage Doctors</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+
+    <!-- DataTables -->
+
+    <link
+        href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"
+        rel="stylesheet">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family: "Segoe UI", Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 80% 10%,
+                    rgba(129, 140, 248, 0.13),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 10% 90%,
+                    rgba(167, 139, 250, 0.10),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #f5f3ff,
+                    #eef2ff,
+                    #faf5ff
+                );
+
+            color: #312e81;
+        }
+
+
+        /* =====================================
+           SIDEBAR
+        ===================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 255px;
+
+            padding: 25px 18px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #292524,
+                    #3f3a36,
+                    #292524
+                );
+
+            box-shadow:
+                8px 0 30px rgba(41, 37, 36, 0.15);
+
+            z-index: 1000;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 5px 8px 25px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.10);
+
+            margin-bottom: 25px;
+        }
+
+
+        .brand-icon {
+
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #c6a15b,
+                    #e2c27b
+                );
+
+            color: #292524;
+
+            font-size: 22px;
+        }
+
+
+        .brand-text h3 {
+
+            margin: 0;
+
+            color: #fafaf9;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-text span {
+
+            display: block;
+
+            margin-top: 3px;
+
+            color: #a8a29e;
+
+            font-size: 11px;
+        }
+
+
+        .nav-title {
+
+            padding: 0 10px;
+
+            margin-bottom: 10px;
+
+            color: #a8a29e;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+        }
+
+
+        .nav-menu {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 13px 14px;
+
+            border-radius: 12px;
+
+            color: #d6d3d1;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .nav-link i {
+
+            width: 22px;
+
+            text-align: center;
+
+            font-size: 18px;
+        }
+
+
+        .nav-link:hover {
+
+            background:
+                rgba(255,255,255,0.08);
+
+            color: white;
+
+            transform:
+                translateX(3px);
+        }
+
+
+        .nav-link.active {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(198, 161, 91, 0.25),
+                    rgba(198, 161, 91, 0.08)
+                );
+
+            color: #f5d98f;
+
+            border-left:
+                3px solid #d6b56b;
+        }
+
+
+        .nav-link.active i {
+
+            color: #e5c47b;
+        }
+
+
+        .sidebar-bottom {
+
+            position: absolute;
+
+            left: 18px;
+            right: 18px;
+            bottom: 22px;
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+
+            color: #a8a29e;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+
+        .sidebar-bottom i {
+
+            color: #d6b56b;
+
+            margin-right: 5px;
+        }
+
+
+        /* =====================================
+           MAIN CONTENT
+        ===================================== */
+
+        .main-content {
+
+            margin-left: 255px;
+
+            min-height: 100vh;
+
+            padding: 35px 42px;
+        }
+
+
+        /* =====================================
+           PAGE HEADER
+        ===================================== */
+
+        .page-header {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 30px 35px;
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                   #6366f1,
+                   #6d28d9
+                );
+
+            color: white;
+
+            box-shadow:
+                0 15px 35px rgba(67, 56, 202, 0.20);
+
+            margin-bottom: 28px;
+        }
+
+
+        .page-header::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            right: -70px;
+            top: -110px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.08);
+        }
+
+
+        .page-header::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 130px;
+            height: 130px;
+
+            right: 190px;
+            bottom: -85px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.06);
+        }
+
+
+        .header-content {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .header-icon {
+
+            width: 56px;
+            height: 56px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,0.14);
+
+            color: #ddd6fe;
+
+            font-size: 26px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .page-header h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+            font-weight: 700;
+        }
+
+
+        .page-header p {
+
+            margin: 7px 0 0;
+
+            color: #e0e7ff;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================
+           TABLE CARD
+        ===================================== */
+
+        .doctor-card {
+
+            background:
+                rgba(255,255,255,0.94);
+
+            border:
+                1px solid #ddd6fe;
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 12px 35px rgba(67, 56, 202, 0.09);
+
+            overflow: hidden;
+        }
+
+
+        .card-header-custom {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 22px 25px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #f5f3ff,
+                    #eef2ff,
+                    #faf5ff
+                );
+
+            border-bottom:
+                1px solid #e0e7ff;
+        }
+
+
+        .card-header-custom h4 {
+
+            margin: 0;
+
+            color: #312e81;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+
+        .card-header-custom p {
+
+            margin: 4px 0 0;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        .doctor-count {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 8px 13px;
+
+            border-radius: 50px;
+
+            background: #ede9fe;
+
+            color: #6d28d9;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================
+           TABLE
+        ===================================== */
+
+        .table-container {
+
+            padding: 22px;
+        }
+
+
+        #doctorTable {
+
+            margin: 0 !important;
+
+            border-collapse: separate;
+
+            border-spacing: 0 7px;
+        }
+
+
+        #doctorTable thead th {
+
+            padding: 14px 12px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #312e81,
+                    #4338ca
+                );
+
+            color: white;
+
+            border: none;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        #doctorTable thead th:first-child {
+
+            border-radius: 10px 0 0 10px;
+        }
+
+
+        #doctorTable thead th:last-child {
+
+            border-radius: 0 10px 10px 0;
+        }
+
+
+        #doctorTable tbody tr {
+
+            background: #ffffff;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        #doctorTable tbody tr:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 7px 18px rgba(67, 56, 202, 0.09);
+        }
+
+
+        #doctorTable tbody td {
+
+            padding: 13px 12px;
+
+            border-top:
+                1px solid #eef2ff;
+
+            border-bottom:
+                1px solid #eef2ff;
+
+            color: #475569;
+
+            font-size: 13px;
+
+            vertical-align: middle;
+        }
+
+
+        #doctorTable tbody td:first-child {
+
+            border-left:
+                1px solid #eef2ff;
+
+            border-radius: 10px 0 0 10px;
+
+            color: #6366f1;
+
+            font-weight: 700;
+        }
+
+
+        #doctorTable tbody td:last-child {
+
+            border-right:
+                1px solid #eef2ff;
+
+            border-radius: 0 10px 10px 0;
+        }
+
+
+        /* =====================================
+           DOCTOR PHOTO
+        ===================================== */
+
+        .doctor-photo {
+
+            width: 55px;
+            height: 55px;
+
+            object-fit: cover;
+
+            border-radius: 15px;
+
+            border:
+                3px solid #ede9fe;
+
+            box-shadow:
+                0 4px 10px rgba(67, 56, 202, 0.12);
+        }
+
+
+        .no-photo {
+
+            width: 55px;
+            height: 55px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background: #f1f5f9;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================
+           DOCTOR NAME
+        ===================================== */
+
+        .doctor-name {
+
+            color: #1e1b4b;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        .doctor-email {
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================
+           SPECIALIZATION
+        ===================================== */
+
+        .specialization {
+
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 8px;
+
+            background: #f5f3ff;
+
+            color: #6d28d9;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================
+           EXPERIENCE
+        ===================================== */
+
+        .experience {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 6px 9px;
+
+            border-radius: 8px;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================
+           STATUS
+        ===================================== */
+
+        .status-badge {
+
+            display: inline-block;
+
+            padding: 7px 11px;
+
+            border-radius: 50px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-transform: capitalize;
+        }
+
+
+        .status-pending {
+
+            background: #fef3c7;
+
+            color: #92400e;
+        }
+
+
+        .status-accepted {
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+
+        .status-rejected {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        /* =====================================
+           ACTION BUTTONS
+        ===================================== */
+
+        .action-buttons {
+
+            display: flex;
+
+            gap: 6px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .btn-accept {
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 7px 10px;
+
+            background: #16a34a;
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            transition: 0.2s ease;
+        }
+
+
+        .btn-accept:hover {
+
+            background: #15803d;
+
+            color: white;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .btn-reject {
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 7px 10px;
+
+            background: #fff1f2;
+
+            color: #be123c;
+
+            border:
+                1px solid #fecdd3;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            transition: 0.2s ease;
+        }
+
+
+        .btn-reject:hover {
+
+            background: #e11d48;
+
+            color: white;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================
+           DATATABLE SEARCH
+        ===================================== */
+
+        .dataTables_wrapper .dataTables_filter {
+
+            margin-bottom: 18px;
+        }
+
+
+        .dataTables_wrapper .dataTables_filter label {
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        .dataTables_wrapper .dataTables_filter input {
+
+            margin-left: 8px !important;
+
+            padding: 9px 13px;
+
+            min-width: 250px;
+
+            border:
+                1px solid #c7d2fe !important;
+
+            border-radius: 10px !important;
+
+            outline: none;
+
+            background: white;
+
+            color: #312e81;
+        }
+
+
+        .dataTables_wrapper .dataTables_filter input:focus {
+
+            border-color:
+                #6366f1 !important;
+
+            box-shadow:
+                0 0 0 3px rgba(99,102,241,0.12);
+        }
+
+
+        .dataTables_wrapper .dataTables_length select {
+
+            border:
+                1px solid #c7d2fe;
+
+            border-radius: 8px;
+
+            padding: 5px 8px;
+
+            color: #475569;
+        }
+
+
+        .dataTables_wrapper .dataTables_info {
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            margin-top: 15px;
+        }
+
+
+        .dataTables_wrapper .dataTables_paginate {
+
+            margin-top: 10px;
+        }
+
+
+        .dataTables_wrapper .page-item .page-link {
+
+            border: none;
+
+            margin: 2px;
+
+            border-radius: 8px;
+
+            color: #4f46e5;
+
+            background: #f5f3ff;
+
+            font-size: 12px;
+        }
+
+
+        .dataTables_wrapper .page-item.active .page-link {
+
+            background: #4f46e5;
+
+            color: white;
+        }
+
+
+        /* =====================================
+           BACK BUTTON
+        ===================================== */
+
+        .bottom-area {
+
+            margin-top: 25px;
+        }
+
+
+        .back-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 11px 18px;
+
+            border-radius: 11px;
+
+            background: #44403c;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            box-shadow:
+                0 6px 15px rgba(68, 64, 60, 0.15);
+
+            transition: 0.2s ease;
+        }
+
+
+        .back-btn:hover {
+
+            background: #292524;
+
+            color: white;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                min-height: auto;
+
+            }
+
+
+            .sidebar-bottom {
+
+                position: relative;
+
+                left: auto;
+                right: auto;
+                bottom: auto;
+
+                margin-top: 20px;
+            }
+
+
+            .main-content {
+
+                margin-left: 0;
+
+                padding: 25px 18px;
+            }
+
+
+            .table-container {
+
+                padding: 14px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .page-header {
+
+                padding: 24px;
+            }
+
+
+            .page-header h1 {
+
+                font-size: 25px;
+            }
+
+
+            .card-header-custom {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .dataTables_wrapper .dataTables_filter input {
+
+                min-width: 100%;
+
+                margin-left: 0 !important;
+
+                margin-top: 7px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     SIDEBAR
+========================================= -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        <div class="brand-icon">
+
+            <i class="bi bi-heart-pulse-fill"></i>
+
+        </div>
+
+
+        <div class="brand-text">
+
+            <h3>MedCare Admin</h3>
+
+            <span>Management Panel</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        Main Menu
+    </div>
+
+
+    <nav class="nav-menu">
+
+
+        <a
+            href="/myapp/admin/"
+            class="nav-link">
+
+            <i class="bi bi-grid-1x2-fill"></i>
+
+            Dashboard
+
+        </a>
+
+
+        <a
+            href="/myapp/doctors/"
+            class="nav-link active">
+
+            <i class="bi bi-person-badge-fill"></i>
+
+            Doctors
+
+        </a>
+
+
+        <a
+            href="/myapp/users/"
+            class="nav-link">
+
+            <i class="bi bi-people-fill"></i>
+
+            Users
+
+        </a>
+
+
+        <a
+            href="/myapp/complaint/"
+            class="nav-link">
+
+            <i class="bi bi-chat-left-text-fill"></i>
+
+            Complaints
+
+        </a>
+
+
+        <a
+            href="/myapp/feedback/"
+            class="nav-link">
+
+            <i class="bi bi-star-fill"></i>
+
+            Feedback
+
+        </a>
+
+
+        <a
+            href="/myapp/report/"
+            class="nav-link">
+
+            <i class="bi bi-bar-chart-fill"></i>
+
+            Reports
+
+        </a>
+
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <i class="bi bi-shield-check"></i>
+
+        Admin control panel for managing
+        the medical appointment system.
+
+    </div>
+
+
+</aside>
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<main class="main-content">
+
+
+    <!-- Page Header -->
+
+    <div class="page-header">
+
+        <div class="header-content">
+
+            <div class="header-icon">
+
+                <i class="bi bi-person-badge"></i>
+
+            </div>
+
+
+            <h1>Doctor Management</h1>
+
+
+            <p>
+                Review registered doctors and manage their approval status.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Doctor Table -->
+
+    <div class="doctor-card">
+
+
+        <div class="card-header-custom">
+
+            <div>
+
+                <h4>
+
+                    <i class="bi bi-people me-2"></i>
+
+                    Registered Doctors
+
+                </h4>
+
+                <p>
+                    Search and manage doctor registration details.
+                </p>
+
+            </div>
+
+
+            <div class="doctor-count">
+
+                <i class="bi bi-person-check"></i>
+
+                Doctor Records
+
+            </div>
+
+        </div>
+
+
+        <div class="table-container">
+
+
+            <div class="table-responsive">
+
+
+                <table
+                    id="doctorTable"
+                    class="table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Photo</th>
+
+                            <th>Name</th>
+
+                            <th>Email</th>
+
+                            <th>Phone</th>
+
+                            <th>Specialization</th>
+
+                            <th>Qualification</th>
+
+                            <th>Experience</th>
+
+                            <th>Status</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% for i in data %}
+
+
+                        <tr>
+
+
+                            <td>
+
+                                {{ forloop.counter }}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if i.photo %}
+
+                                    <img
+                                        src="{{ i.photo.url }}"
+                                        class="doctor-photo"
+                                        alt="Doctor Photo">
+
+                                {% else %}
+
+                                    <div class="no-photo">
+
+                                        <i class="bi bi-person"></i>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="doctor-name">
+
+                                    {{ i.name }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="doctor-email">
+
+                                    <i class="bi bi-envelope me-1"></i>
+
+                                    {{ i.email }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <i class="bi bi-telephone me-1"></i>
+
+                                {{ i.phone }}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="specialization">
+
+                                    {{ i.specialization }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                {{ i.qualification }}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="experience">
+
+                                    <i class="bi bi-briefcase"></i>
+
+                                    {{ i.experience }} years
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+
+                                {% if i.status == "Pending" %}
+
+                                    <span class="status-badge status-pending">
+
+                                        <i class="bi bi-hourglass-split me-1"></i>
+
+                                        Pending
+
+                                    </span>
+
+
+                                {% elif i.status == "Accepted" %}
+
+                                    <span class="status-badge status-accepted">
+
+                                        <i class="bi bi-check-circle me-1"></i>
+
+                                        Accepted
+
+                                    </span>
+
+
+                                {% elif i.status == "Rejected" %}
+
+                                    <span class="status-badge status-rejected">
+
+                                        <i class="bi bi-x-circle me-1"></i>
+
+                                        Rejected
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                            <td>
+
+
+                                <div class="action-buttons">
+
+
+                                    <a
+                                        href="/myapp/accept/{{i.id}}/"
+                                        class="btn-accept">
+
+                                        <i class="bi bi-check-lg me-1"></i>
+
+                                        Accept
+
+                                    </a>
+
+
+                                    <a
+                                        href="/myapp/reject/{{i.id}}/"
+                                        class="btn-reject">
+
+                                        <i class="bi bi-x-lg me-1"></i>
+
+                                        Reject
+
+                                    </a>
+
+
+                                </div>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- Back -->
+
+    <div class="bottom-area">
+
+        <a
+            href="/myapp/dash/"
+            class="back-btn">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<!-- =========================================
+     SCRIPTS
+========================================= -->
+
+
+<script
+    src="https://code.jquery.com/jquery-3.7.0.min.js">
+</script>
+
+
+<script
+    src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js">
+</script>
+
+
+<script
+    src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js">
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#doctorTable').DataTable({
+
+            language: {
+
+                search: "",
+
+                searchPlaceholder:
+                    "Search doctors..."
+
+            }
+
+        });
+
+    });
+
+</script>
+
+
+</body>
+
+</html>

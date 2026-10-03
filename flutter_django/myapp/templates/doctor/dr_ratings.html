@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor Ratings</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #FFFBEB,
+                    #FEF3C7,
+                    #FAF5FF,
+                    #F5F3FF
+                );
+
+            min-height: 100vh;
+
+            color: #334155;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================== */
+
+        .page-header {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #312E4B,
+                    #4C3A63,
+                    #7C4D5C,
+                    #B7791F
+                );
+
+            color: white;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 12px 30px rgba(76, 58, 99, 0.20);
+        }
+
+
+        .header-icon {
+
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255,255,255,0.15);
+
+            border: 1px solid rgba(255,255,255,0.20);
+
+            border-radius: 16px;
+
+            font-size: 28px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .header-icon i {
+
+            color: #FDE68A;
+        }
+
+
+        .page-header h2 {
+
+            margin: 0 0 6px 0;
+
+            font-size: 28px;
+
+            font-weight: 700;
+        }
+
+
+        .page-header p {
+
+            margin: 0;
+
+            color: #F5F0FF;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           RATINGS CARD
+        ========================== */
+
+        .ratings-card {
+
+            background: #FFFFFF;
+
+            border: none;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 10px 28px rgba(15, 23, 42, 0.08);
+        }
+
+
+        .ratings-card-header {
+
+            padding: 20px 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #F8F5FF,
+                    #FFF7ED
+                );
+
+            border-bottom: 1px solid #E9D5FF;
+        }
+
+
+        .ratings-card-header h4 {
+
+            margin: 0;
+
+            color: #4C1D5F;
+
+            font-weight: 700;
+
+            font-size: 20px;
+        }
+
+
+        .ratings-card-header i {
+
+            color: #D97706;
+
+            margin-right: 8px;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================== */
+
+        .table {
+
+            margin-bottom: 0;
+        }
+
+
+        .table thead th {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #3B3154,
+                    #5B416B
+                );
+
+            color: white;
+
+            padding: 15px;
+
+            border: none;
+
+            font-weight: 600;
+        }
+
+
+        .table tbody td {
+
+            padding: 15px;
+
+            vertical-align: middle;
+
+            color: #44403C;
+
+            border-color: #EDE9FE;
+        }
+
+
+        .table tbody tr {
+
+            transition: 0.2s;
+        }
+
+
+        .table tbody tr:hover {
+
+            background: #FFFBEB;
+        }
+
+
+        /* =========================
+           USER NAME
+        ========================== */
+
+        .user-name {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-weight: 600;
+
+            color: #5B416B;
+        }
+
+
+        .user-icon {
+
+            width: 34px;
+            height: 34px;
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #F3E8FF;
+
+            color: #7C3AED;
+
+            border-radius: 50%;
+
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           RATING
+        ========================== */
+
+        .rating-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            background: #FEF3C7;
+
+            color: #92400E;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-weight: 700;
+
+            min-width: 55px;
+
+            justify-content: center;
+        }
+
+
+        .rating-badge i {
+
+            color: #F59E0B;
+        }
+
+
+        /* =========================
+           COMMENT
+        ========================== */
+
+        .comment-box {
+
+            background: #FAF5FF;
+
+            border-left: 3px solid #C084FC;
+
+            padding: 8px 12px;
+
+            border-radius: 6px;
+
+            color: #5B5563;
+
+            max-width: 400px;
+        }
+
+
+        /* =========================
+           DATE
+        ========================== */
+
+        .date-text {
+
+            color: #64748B;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================== */
+
+        .empty-state {
+
+            padding: 45px 20px !important;
+
+            text-align: center;
+
+            color: #64748B;
+        }
+
+
+        .empty-state i {
+
+            display: block;
+
+            font-size: 38px;
+
+            color: #C4B5FD;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =========================
+           BACK BUTTON
+        ========================== */
+
+        .back-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            background: #475569;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 11px 22px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            transition: 0.25s;
+        }
+
+
+        .back-btn:hover {
+
+            background: #334155;
+
+            color: white;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 6px 15px rgba(71, 85, 105, 0.20);
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 768px) {
+
+            .container {
+
+                padding-left: 15px;
+
+                padding-right: 15px;
+            }
+
+
+            .page-header {
+
+                padding: 25px;
+
+                border-radius: 16px;
+            }
+
+
+            .page-header h2 {
+
+                font-size: 23px;
+            }
+
+
+            .table {
+
+                min-width: 750px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container py-5">
+
+
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
+
+    <div class="page-header">
+
+
+        <div class="header-icon">
+
+            <i class="bi bi-star-fill"></i>
+
+        </div>
+
+
+        <h2>
+            My Ratings
+        </h2>
+
+
+        <p>
+            View feedback and ratings received from your patients
+        </p>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         RATINGS CARD
+    ========================== -->
+
+    <div class="ratings-card">
+
+
+        <div class="ratings-card-header">
+
+            <h4>
+
+                <i class="bi bi-chat-square-heart-fill"></i>
+
+                Patient Ratings & Reviews
+
+            </h4>
+
+        </div>
+
+
+
+        <div class="table-responsive">
+
+
+            <table class="table table-bordered table-hover">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>No</th>
+
+                        <th>User</th>
+
+                        <th>Rating</th>
+
+                        <th>Comment</th>
+
+                        <th>Date</th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+
+                    {% for i in data %}
+
+
+                    <tr>
+
+
+                        <td>
+
+                            {{ forloop.counter }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="user-name">
+
+                                <span class="user-icon">
+
+                                    <i class="bi bi-person-fill"></i>
+
+                                </span>
+
+                                {{ i.users.name }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="rating-badge">
+
+                                <i class="bi bi-star-fill"></i>
+
+                                {{ i.rating }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="comment-box">
+
+                                {{ i.comment }}
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="date-text">
+
+                                <i class="bi bi-calendar3 me-1"></i>
+
+                                {{ i.date }}
+
+                            </span>
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% empty %}
+
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty-state"
+                        >
+
+                            <i class="bi bi-star"></i>
+
+                            No ratings found
+
+                        </td>
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         BACK BUTTON
+    ========================== -->
+
+    <div class="text-center mt-4">
+
+
+        <a
+            href="/myapp/dr_dash/"
+            class="back-btn"
+        >
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Dashboard
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

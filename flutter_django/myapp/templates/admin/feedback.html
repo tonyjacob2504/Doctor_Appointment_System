@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Feedback</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+
+    <!-- DataTables -->
+
+    <link
+        href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"
+        rel="stylesheet">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family: "Segoe UI", Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 80% 10%,
+                    rgba(190, 24, 93, 0.10),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 10% 90%,
+                    rgba(217, 119, 6, 0.08),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #fff7f8,
+                    #fdf2f8,
+                    #fffaf5
+                );
+
+            color: #3f172a;
+        }
+
+
+        /* =====================================
+           SIDEBAR
+        ===================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 255px;
+
+            padding: 25px 18px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #292524,
+                    #3f3a36,
+                    #292524
+                );
+
+            box-shadow:
+                8px 0 30px rgba(41, 37, 36, 0.15);
+
+            z-index: 1000;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 5px 8px 25px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.10);
+
+            margin-bottom: 25px;
+        }
+
+
+        .brand-icon {
+
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #c6a15b,
+                    #e2c27b
+                );
+
+            color: #292524;
+
+            font-size: 22px;
+        }
+
+
+        .brand-text h3 {
+
+            margin: 0;
+
+            color: #fafaf9;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-text span {
+
+            display: block;
+
+            margin-top: 3px;
+
+            color: #a8a29e;
+
+            font-size: 11px;
+        }
+
+
+        .nav-title {
+
+            padding: 0 10px;
+
+            margin-bottom: 10px;
+
+            color: #a8a29e;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+        }
+
+
+        .nav-menu {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 13px 14px;
+
+            border-radius: 12px;
+
+            color: #d6d3d1;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .nav-link i {
+
+            width: 22px;
+
+            text-align: center;
+
+            font-size: 18px;
+        }
+
+
+        .nav-link:hover {
+
+            background:
+                rgba(255,255,255,0.08);
+
+            color: white;
+
+            transform:
+                translateX(3px);
+        }
+
+
+        .nav-link.active {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(198, 161, 91, 0.25),
+                    rgba(198, 161, 91, 0.08)
+                );
+
+            color: #f5d98f;
+
+            border-left:
+                3px solid #d6b56b;
+        }
+
+
+        .nav-link.active i {
+
+            color: #e5c47b;
+        }
+
+
+        .sidebar-bottom {
+
+            position: absolute;
+
+            left: 18px;
+            right: 18px;
+            bottom: 22px;
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+
+            color: #a8a29e;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+
+        .sidebar-bottom i {
+
+            color: #d6b56b;
+
+            margin-right: 5px;
+        }
+
+
+        /* =====================================
+           MAIN CONTENT
+        ===================================== */
+
+        .main-content {
+
+            margin-left: 255px;
+
+            min-height: 100vh;
+
+            padding: 35px 42px;
+        }
+
+
+        /* =====================================
+           PAGE HEADER
+        ===================================== */
+
+        .page-header {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 30px 35px;
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #4a1930,
+                    #831843,
+                    #9d174d,
+                    #be185d
+                );
+
+            color: white;
+
+            box-shadow:
+                0 15px 35px rgba(157, 23, 77, 0.18);
+
+            margin-bottom: 28px;
+        }
+
+
+        .page-header::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            right: -70px;
+            top: -110px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.08);
+        }
+
+
+        .page-header::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 130px;
+            height: 130px;
+
+            right: 190px;
+            bottom: -85px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(251, 191, 36, 0.08);
+        }
+
+
+        .header-content {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .header-icon {
+
+            width: 56px;
+            height: 56px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,0.14);
+
+            color: #fbcfe8;
+
+            font-size: 26px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .page-header h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+            font-weight: 700;
+        }
+
+
+        .page-header p {
+
+            margin: 7px 0 0;
+
+            color: #fce7f3;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================
+           FEEDBACK CARD
+        ===================================== */
+
+        .feedback-card {
+
+            background:
+                rgba(255,255,255,0.95);
+
+            border:
+                1px solid #fbcfe8;
+
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 12px 35px rgba(157, 23, 77, 0.08);
+        }
+
+
+        .card-header-custom {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 22px 25px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #fff1f2,
+                    #fdf2f8,
+                    #fff7ed
+                );
+
+            border-bottom:
+                1px solid #fce7f3;
+        }
+
+
+        .card-header-custom h4 {
+
+            margin: 0;
+
+            color: #831843;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+
+        .card-header-custom p {
+
+            margin: 4px 0 0;
+
+            color: #78716c;
+
+            font-size: 12px;
+        }
+
+
+        .feedback-label {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 8px 13px;
+
+            border-radius: 50px;
+
+            background: #fce7f3;
+
+            color: #be185d;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================
+           TABLE
+        ===================================== */
+
+        .table-container {
+
+            padding: 22px;
+        }
+
+
+        #feedbackTable {
+
+            margin: 0 !important;
+
+            border-collapse: separate;
+
+            border-spacing: 0 7px;
+        }
+
+
+        #feedbackTable thead th {
+
+            padding: 14px 13px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #701a42,
+                    #9d174d
+                );
+
+            color: white;
+
+            border: none;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        #feedbackTable thead th:first-child {
+
+            border-radius: 10px 0 0 10px;
+        }
+
+
+        #feedbackTable thead th:last-child {
+
+            border-radius: 0 10px 10px 0;
+        }
+
+
+        #feedbackTable tbody tr {
+
+            background: white;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        #feedbackTable tbody tr:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 7px 18px rgba(157, 23, 77, 0.08);
+        }
+
+
+        #feedbackTable tbody td {
+
+            padding: 16px 13px;
+
+            border-top:
+                1px solid #fce7f3;
+
+            border-bottom:
+                1px solid #fce7f3;
+
+            color: #57534e;
+
+            font-size: 13px;
+
+            vertical-align: middle;
+        }
+
+
+        #feedbackTable tbody td:first-child {
+
+            border-left:
+                1px solid #fce7f3;
+
+            border-radius: 10px 0 0 10px;
+
+            color: #be185d;
+
+            font-weight: 700;
+        }
+
+
+        #feedbackTable tbody td:last-child {
+
+            border-right:
+                1px solid #fce7f3;
+
+            border-radius: 0 10px 10px 0;
+        }
+
+
+        /* =====================================
+           USER
+        ===================================== */
+
+        .user-cell {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .user-icon {
+
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 12px;
+
+            background:
+                #fce7f3;
+
+            color: #be185d;
+
+            font-size: 17px;
+        }
+
+
+        .user-name {
+
+            color: #3f172a;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================
+           EMAIL
+        ===================================== */
+
+        .email-cell {
+
+            color: #78716c;
+
+            white-space: nowrap;
+        }
+
+
+        .email-cell i {
+
+            color: #d97706;
+        }
+
+
+        /* =====================================
+           FEEDBACK TEXT
+        ===================================== */
+
+        .feedback-box {
+
+            max-width: 550px;
+
+            padding: 11px 14px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff7f8,
+                    #fdf2f8
+                );
+
+            border-left:
+                3px solid #db2777;
+
+            color: #57534e;
+
+            line-height: 1.6;
+        }
+
+
+        .feedback-box i {
+
+            color: #db2777;
+
+            margin-right: 6px;
+        }
+
+
+        /* =====================================
+           DATE
+        ===================================== */
+
+        .date-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 7px 10px;
+
+            border-radius: 9px;
+
+            background: #fff7ed;
+
+            color: #c2410c;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================
+           DATATABLE SEARCH
+        ===================================== */
+
+        .dataTables_wrapper .dataTables_filter {
+
+            margin-bottom: 18px;
+        }
+
+
+        .dataTables_wrapper .dataTables_filter label {
+
+            color: #78716c;
+
+            font-size: 13px;
+        }
+
+
+        .dataTables_wrapper .dataTables_filter input {
+
+            margin-left: 8px !important;
+
+            padding: 9px 13px;
+
+            min-width: 260px;
+
+            border:
+                1px solid #f9a8d4 !important;
+
+            border-radius: 10px !important;
+
+            outline: none;
+
+            background: white;
+
+            color: #831843;
+        }
+
+
+        .dataTables_wrapper .dataTables_filter input:focus {
+
+            border-color:
+                #db2777 !important;
+
+            box-shadow:
+                0 0 0 3px rgba(219, 39, 119, 0.10);
+        }
+
+
+        .dataTables_wrapper .dataTables_length select {
+
+            border:
+                1px solid #f9a8d4;
+
+            border-radius: 8px;
+
+            padding: 5px 8px;
+
+            color: #57534e;
+        }
+
+
+        .dataTables_wrapper .dataTables_info {
+
+            color: #78716c;
+
+            font-size: 12px;
+
+            margin-top: 15px;
+        }
+
+
+        .dataTables_wrapper .dataTables_paginate {
+
+            margin-top: 10px;
+        }
+
+
+        .dataTables_wrapper .page-item .page-link {
+
+            border: none;
+
+            margin: 2px;
+
+            border-radius: 8px;
+
+            color: #be185d;
+
+            background: #fdf2f8;
+
+            font-size: 12px;
+        }
+
+
+        .dataTables_wrapper .page-item.active .page-link {
+
+            background: #be185d;
+
+            color: white;
+        }
+
+
+        /* =====================================
+           BACK BUTTON
+        ===================================== */
+
+        .bottom-area {
+
+            margin-top: 25px;
+        }
+
+
+        .back-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 11px 18px;
+
+            border-radius: 11px;
+
+            background: #44403c;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            box-shadow:
+                0 6px 15px rgba(68, 64, 60, 0.15);
+
+            transition: 0.2s ease;
+        }
+
+
+        .back-btn:hover {
+
+            background: #292524;
+
+            color: white;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                min-height: auto;
+            }
+
+
+            .sidebar-bottom {
+
+                position: relative;
+
+                left: auto;
+                right: auto;
+                bottom: auto;
+
+                margin-top: 20px;
+            }
+
+
+            .main-content {
+
+                margin-left: 0;
+
+                padding: 25px 18px;
+            }
+
+
+            .table-container {
+
+                padding: 14px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .page-header {
+
+                padding: 24px;
+            }
+
+
+            .page-header h1 {
+
+                font-size: 25px;
+            }
+
+
+            .card-header-custom {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .dataTables_wrapper .dataTables_filter input {
+
+                min-width: 100%;
+
+                margin-left: 0 !important;
+
+                margin-top: 7px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     SIDEBAR
+========================================= -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        <div class="brand-icon">
+
+            <i class="bi bi-heart-pulse-fill"></i>
+
+        </div>
+
+
+        <div class="brand-text">
+
+            <h3>MedCare Admin</h3>
+
+            <span>Management Panel</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        Main Menu
+    </div>
+
+
+    <nav class="nav-menu">
+
+
+        <a
+            href="/myapp/admin/"
+            class="nav-link">
+
+            <i class="bi bi-grid-1x2-fill"></i>
+
+            Dashboard
+
+        </a>
+
+
+        <a
+            href="/myapp/doctors/"
+            class="nav-link">
+
+            <i class="bi bi-person-badge-fill"></i>
+
+            Doctors
+
+        </a>
+
+
+        <a
+            href="/myapp/users/"
+            class="nav-link">
+
+            <i class="bi bi-people-fill"></i>
+
+            Users
+
+        </a>
+
+
+        <a
+            href="/myapp/complaint/"
+            class="nav-link">
+
+            <i class="bi bi-chat-left-text-fill"></i>
+
+            Complaints
+
+        </a>
+
+
+        <a
+            href="/myapp/feedback/"
+            class="nav-link active">
+
+            <i class="bi bi-star-fill"></i>
+
+            Feedback
+
+        </a>
+
+
+        <a
+            href="/myapp/report/"
+            class="nav-link">
+
+            <i class="bi bi-bar-chart-fill"></i>
+
+            Reports
+
+        </a>
+
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <i class="bi bi-shield-check"></i>
+
+        Admin control panel for managing
+        the medical appointment system.
+
+    </div>
+
+
+</aside>
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<main class="main-content">
+
+
+    <!-- Header -->
+
+    <div class="page-header">
+
+        <div class="header-content">
+
+            <div class="header-icon">
+
+                <i class="bi bi-chat-heart"></i>
+
+            </div>
+
+
+            <h1>User Feedback</h1>
+
+
+            <p>
+                Review feedback submitted by users about the medical appointment system.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Feedback Card -->
+
+    <div class="feedback-card">
+
+
+        <div class="card-header-custom">
+
+            <div>
+
+                <h4>
+
+                    <i class="bi bi-chat-square-heart me-2"></i>
+
+                    Feedback Records
+
+                </h4>
+
+                <p>
+                    Search and review feedback submitted by registered users.
+                </p>
+
+            </div>
+
+
+            <div class="feedback-label">
+
+                <i class="bi bi-star-fill"></i>
+
+                User Feedback
+
+            </div>
+
+        </div>
+
+
+        <div class="table-container">
+
+
+            <div class="table-responsive">
+
+
+                <table
+                    id="feedbackTable"
+                    class="table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>No</th>
+
+                            <th>User</th>
+
+                            <th>Email</th>
+
+                            <th>Feedback</th>
+
+                            <th>Date</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% for i in data %}
+
+
+                        <tr>
+
+
+                            <td>
+
+                                {{ forloop.counter }}
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="user-cell">
+
+                                    <div class="user-icon">
+
+                                        <i class="bi bi-person"></i>
+
+                                    </div>
+
+                                    <span class="user-name">
+
+                                        {{ i.userprofile.name }}
+
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="email-cell">
+
+                                    <i class="bi bi-envelope me-1"></i>
+
+                                    {{ i.userprofile.email }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="feedback-box">
+
+                                    <i class="bi bi-quote"></i>
+
+                                    {{ i.feedback }}
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="date-badge">
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                    {{ i.date }}
+
+                                </span>
+
+                            </td>
+
+
+                        </tr>
+
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- Back -->
+
+    <div class="bottom-area">
+
+        <a
+            href="/myapp/dash/"
+            class="back-btn">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<!-- =========================================
+     SCRIPTS
+========================================= -->
+
+<script
+    src="https://code.jquery.com/jquery-3.7.0.min.js">
+</script>
+
+
+<script
+    src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js">
+</script>
+
+
+<script
+    src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js">
+</script>
+
+
+<script>
+
+$(document).ready(function () {
+
+    $('#feedbackTable').DataTable({
+
+        language: {
+
+            search: "",
+
+            searchPlaceholder:
+                "Search feedback..."
+
+        }
+
+    });
+
+});
+
+</script>
+
+
+</body>
+
+</html>

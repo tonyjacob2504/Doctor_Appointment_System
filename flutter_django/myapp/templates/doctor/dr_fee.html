@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Fee</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            /* Keep the background you liked */
+            background:
+                linear-gradient(
+                    135deg,
+                    #FFF7ED,
+                    #FFEDD5,
+                    #ECFDF5,
+                    #F0FDFA
+                );
+
+            min-height: 100vh;
+
+            color: #334155;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #292524,
+                    #4A3636,
+                    #795548,
+                    #9F6B61
+                );
+
+            color: white;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 12px 30px rgba(68, 50, 50, 0.20);
+        }
+
+
+        .header-icon {
+
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255,255,255,0.15);
+
+            border: 1px solid rgba(255,255,255,0.20);
+
+            border-radius: 16px;
+
+            font-size: 28px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .page-header h2 {
+
+            margin: 0 0 6px 0;
+
+            font-size: 28px;
+
+            font-weight: 700;
+        }
+
+
+        .page-header p {
+
+            margin: 0;
+
+            color: #F5EAEA;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           FEE CARD
+        ========================= */
+
+        .fee-card {
+
+            background: #FFFFFF;
+
+            border: none;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 10px 28px rgba(15, 23, 42, 0.09);
+
+            margin-bottom: 30px;
+        }
+
+
+        /* Fee card header */
+
+        .fee-card-header {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #3B3030,
+                    #5A4141,
+                    #76524D
+                );
+
+            padding: 20px 25px;
+
+            color: white;
+        }
+
+
+        .fee-card-header h4 {
+
+            margin: 0;
+
+            font-weight: 600;
+
+            font-size: 20px;
+        }
+
+
+        .fee-card-header i {
+
+            color: #F4D6A0;
+
+            font-size: 23px;
+
+            margin-right: 8px;
+        }
+
+
+        .fee-card-body {
+
+            padding: 28px;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-label {
+
+            font-weight: 600;
+
+            color: #44403C;
+
+            margin-bottom: 9px;
+        }
+
+
+        .fee-input {
+
+            position: relative;
+        }
+
+
+        .currency-symbol {
+
+            position: absolute;
+
+            left: 16px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #7C5A52;
+
+            font-size: 19px;
+
+            font-weight: 700;
+
+            z-index: 2;
+        }
+
+
+        .fee-input input {
+
+            height: 54px;
+
+            padding-left: 43px;
+
+            border: 2px solid #E7E0DE;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+
+            color: #292524;
+
+            transition: 0.2s;
+        }
+
+
+        .fee-input input::placeholder {
+
+            color: #A8A29E;
+        }
+
+
+        .fee-input input:focus {
+
+            border-color: #9F6B61;
+
+            box-shadow:
+                0 0 0 0.2rem rgba(159, 107, 97, 0.12);
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .add-btn {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #047857,
+                    #10B981
+                );
+
+            color: white;
+
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 11px 22px;
+
+            font-weight: 600;
+
+            transition: 0.25s;
+        }
+
+
+        .add-btn:hover {
+
+            color: white;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 18px rgba(16, 185, 129, 0.25);
+        }
+
+
+        .back-btn {
+
+            background: #475569;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 11px 22px;
+
+            font-weight: 600;
+
+            transition: 0.25s;
+        }
+
+
+        .back-btn:hover {
+
+            background: #334155;
+
+            color: white;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           SAVED FEES CARD
+        ========================= */
+
+        .saved-card {
+
+            background: white;
+
+            border: none;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 10px 28px rgba(15, 23, 42, 0.08);
+        }
+
+
+        .saved-card-header {
+
+            padding: 20px 25px;
+
+            background: #F8F5F3;
+
+            border-bottom: 1px solid #E7E0DE;
+        }
+
+
+        .saved-card-header h4 {
+
+            margin: 0;
+
+            color: #4A3636;
+
+            font-weight: 700;
+
+            font-size: 20px;
+        }
+
+
+        .saved-card-header i {
+
+            color: #8B625A;
+
+            margin-right: 8px;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table {
+
+            margin-bottom: 0;
+        }
+
+
+        .table thead th {
+
+            background: #3B3030;
+
+            color: white;
+
+            padding: 14px;
+
+            border: none;
+
+            font-weight: 600;
+        }
+
+
+        .table tbody td {
+
+            padding: 14px;
+
+            vertical-align: middle;
+
+            color: #44403C;
+
+            border-color: #EEE7E4;
+        }
+
+
+        .table tbody tr {
+
+            transition: 0.2s;
+        }
+
+
+        .table tbody tr:hover {
+
+            background: #FFF7F4;
+        }
+
+
+        /* Doctor name */
+
+        .doctor-name {
+
+            font-weight: 600;
+
+            color: #6B4F4F;
+        }
+
+
+        /* Fee amount */
+
+        .fee-amount {
+
+            display: inline-block;
+
+            background: #F7E9D0;
+
+            color: #704214;
+
+            padding: 6px 13px;
+
+            border-radius: 20px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           EMPTY TABLE
+        ========================= */
+
+        .empty-icon {
+
+            font-size: 32px;
+
+            color: #A78B87;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .container {
+
+                padding-left: 15px;
+
+                padding-right: 15px;
+            }
+
+
+            .page-header {
+
+                padding: 25px;
+
+                border-radius: 16px;
+            }
+
+
+            .page-header h2 {
+
+                font-size: 23px;
+            }
+
+
+            .fee-card-body {
+
+                padding: 22px;
+            }
+
+
+            .table {
+
+                min-width: 550px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container py-5">
+
+
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
+
+    <div class="page-header">
+
+        <div class="header-icon">
+
+            <i class="bi bi-cash-stack"></i>
+
+        </div>
+
+
+        <h2>
+            Manage Consultation Fee
+        </h2>
+
+
+        <p>
+            Set and manage your consultation charges
+        </p>
+
+    </div>
+
+
+
+    <!-- =========================
+         ADD FEE CARD
+    ========================== -->
+
+    <div class="fee-card">
+
+
+        <div class="fee-card-header">
+
+            <h4>
+
+                <i class="bi bi-wallet2"></i>
+
+                Consultation Fee
+
+            </h4>
+
+        </div>
+
+
+
+        <div class="fee-card-body">
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Consultation Fee
+
+                    </label>
+
+
+                    <div class="fee-input">
+
+                        <span class="currency-symbol">
+
+                            ₹
+
+                        </span>
+
+
+                        <input
+                            type="number"
+                            name="fees"
+                            class="form-control"
+                            placeholder="Enter consultation fee"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="d-flex gap-2 flex-wrap">
+
+
+                    <button
+                        type="submit"
+                        class="add-btn"
+                    >
+
+                        <i class="bi bi-plus-circle me-1"></i>
+
+                        Add Fee
+
+                    </button>
+
+
+
+                    <a
+                        href="/myapp/dr_dash/"
+                        class="back-btn"
+                    >
+
+                        <i class="bi bi-arrow-left me-1"></i>
+
+                        Back
+
+                    </a>
+
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         SAVED FEES
+    ========================== -->
+
+    <div class="saved-card">
+
+
+        <div class="saved-card-header">
+
+            <h4>
+
+                <i class="bi bi-list-check"></i>
+
+                Saved Fees
+
+            </h4>
+
+        </div>
+
+
+
+        <div class="table-responsive">
+
+
+            <table class="table table-bordered table-striped">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            No
+                        </th>
+
+                        <th>
+                            Doctor Name
+                        </th>
+
+                        <th>
+                            Consultation Fee
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+
+                    {% for i in data %}
+
+
+                    <tr>
+
+
+                        <td>
+
+                            {{ forloop.counter }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="doctor-name">
+
+                                <i class="bi bi-person-circle me-1"></i>
+
+                                {{ i.doctors.name }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="fee-amount">
+
+                                ₹ {{ i.fees }}
+
+                            </span>
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% empty %}
+
+
+                    <tr>
+
+                        <td
+                            colspan="3"
+                            class="text-center text-muted py-4"
+                        >
+
+                            <i class="bi bi-inbox empty-icon d-block mb-2"></i>
+
+                            No consultation fees added yet.
+
+                        </td>
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

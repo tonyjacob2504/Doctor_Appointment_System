@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Reply Complaint</title>
+
+
+    <!-- Bootstrap 5.3 -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body {
+
+            min-height: 100vh;
+
+            margin: 0;
+
+            font-family: "Segoe UI", Arial, sans-serif;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px;
+
+            background:
+
+                radial-gradient(
+                    circle at 10% 15%,
+                    rgba(124, 58, 237, 0.15),
+                    transparent 28%
+                ),
+
+                radial-gradient(
+                    circle at 90% 85%,
+                    rgba(219, 39, 119, 0.14),
+                    transparent 28%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #f5f3ff,
+                    #faf5ff,
+                    #fff1f2
+                );
+
+        }
+
+
+        /* =========================================
+           MAIN CARD
+        ========================================= */
+
+        .reply-card {
+
+            width: 100%;
+
+            max-width: 680px;
+
+            background: rgba(255,255,255,0.96);
+
+            border-radius: 24px;
+
+            overflow: hidden;
+
+            border:
+                1px solid rgba(124,58,237,0.12);
+
+            box-shadow:
+                0 25px 60px rgba(49,46,129,0.16);
+
+        }
+
+
+        /* =========================================
+           CARD HEADER
+        ========================================= */
+
+        .reply-header {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 30px;
+
+            color: white;
+
+            background:
+
+                linear-gradient(
+                    120deg,
+                    #312e81,
+                    #7c3aed,
+                    #db2777
+                );
+
+        }
+
+
+        .reply-header::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+
+            height: 180px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.10);
+
+            right: -55px;
+
+            top: -90px;
+
+        }
+
+
+        .header-content {
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .header-icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 16px;
+
+            margin-bottom: 15px;
+
+            background:
+                rgba(255,255,255,0.15);
+
+        }
+
+
+        .header-icon i {
+
+            font-size: 28px;
+
+        }
+
+
+        .reply-header h3 {
+
+            margin: 0;
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+        }
+
+
+        .reply-header p {
+
+            margin: 7px 0 0;
+
+            color: #ede9fe;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================================
+           CARD BODY
+        ========================================= */
+
+        .reply-body {
+
+            padding: 30px;
+
+        }
+
+
+        /* =========================================
+           FORM LABEL
+        ========================================= */
+
+        .form-label {
+
+            color: #312e81;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .form-label i {
+
+            margin-right: 6px;
+
+            color: #7c3aed;
+
+        }
+
+
+        /* =========================================
+           TEXTAREA
+        ========================================= */
+
+        .form-control {
+
+            border:
+
+                1px solid #ddd6fe;
+
+            border-radius: 12px;
+
+            padding: 13px 14px;
+
+            color: #334155;
+
+            font-size: 14px;
+
+            resize: vertical;
+
+            box-shadow: none;
+
+            transition: 0.25s ease;
+
+        }
+
+
+        .form-control:focus {
+
+            border-color: #7c3aed;
+
+            box-shadow:
+                0 0 0 3px rgba(124,58,237,0.12);
+
+        }
+
+
+        /* Readonly complaint */
+
+        .complaint-field {
+
+            background:
+                #f5f3ff;
+
+            border-left:
+                4px solid #7c3aed;
+
+            color: #475569;
+
+        }
+
+
+        /* Reply field */
+
+        .reply-field {
+
+            background:
+                #ffffff;
+
+            border-left:
+                4px solid #db2777;
+
+        }
+
+
+        .reply-field::placeholder {
+
+            color: #94a3b8;
+
+        }
+
+
+        /* =========================================
+           BUTTON AREA
+        ========================================= */
+
+        .button-area {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            margin-top: 24px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        /* Send Reply */
+
+        .send-btn {
+
+            border: none;
+
+            padding: 11px 22px;
+
+            border-radius: 11px;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #312e81,
+                    #7c3aed,
+                    #db2777
+                );
+
+            box-shadow:
+                0 7px 18px rgba(124,58,237,0.22);
+
+            transition: 0.25s ease;
+
+        }
+
+
+        .send-btn:hover {
+
+            color: white;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 23px rgba(124,58,237,0.30);
+
+        }
+
+
+        /* Back */
+
+        .back-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 11px 22px;
+
+            border-radius: 11px;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            background:
+                #475569;
+
+            transition: 0.25s ease;
+
+        }
+
+
+        .back-btn:hover {
+
+            color: white;
+
+            background: #334155;
+
+            transform: translateY(-2px);
+
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 576px) {
+
+            body {
+
+                padding: 15px;
+
+            }
+
+
+            .reply-header {
+
+                padding: 24px;
+
+            }
+
+
+            .reply-body {
+
+                padding: 22px;
+
+            }
+
+
+            .reply-header h3 {
+
+                font-size: 22px;
+
+            }
+
+
+            .button-area {
+
+                flex-direction: column;
+
+            }
+
+
+            .send-btn,
+            .back-btn {
+
+                width: 100%;
+
+                justify-content: center;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     REPLY CARD
+========================================= -->
+
+<div class="reply-card">
+
+
+    <!-- HEADER -->
+
+    <div class="reply-header">
+
+
+        <div class="header-content">
+
+
+            <div class="header-icon">
+
+                <i class="bi bi-reply-fill"></i>
+
+            </div>
+
+
+            <h3>
+
+                Reply to Complaint
+
+            </h3>
+
+
+            <p>
+
+                Review the complaint and send a response
+                to the user.
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- BODY -->
+
+    <div class="reply-body">
+
+
+        <form method="POST">
+
+
+            {% csrf_token %}
+
+
+
+            <!-- COMPLAINT -->
+
+            <div class="mb-4">
+
+
+                <label class="form-label">
+
+                    <i class="bi bi-chat-left-text-fill"></i>
+
+                    Complaint
+
+                </label>
+
+
+                <textarea
+                    class="form-control complaint-field"
+                    rows="5"
+                    readonly>{{ data.complaint }}</textarea>
+
+
+            </div>
+
+
+
+            <!-- REPLY -->
+
+            <div class="mb-3">
+
+
+                <label class="form-label">
+
+                    <i class="bi bi-pencil-square"></i>
+
+                    Reply
+
+                </label>
+
+
+                <textarea
+                    name="reply"
+                    class="form-control reply-field"
+                    rows="5"
+                    placeholder="Enter your reply to the user..."
+                    required></textarea>
+
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="button-area">
+
+
+                <button
+                    type="submit"
+                    class="send-btn">
+
+                    <i class="bi bi-send-fill"></i>
+
+                    Send Reply
+
+                </button>
+
+
+                <a
+                    href="/myapp/complaint/"
+                    class="back-btn">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    Back
+
+                </a>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
